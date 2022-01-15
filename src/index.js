@@ -10,31 +10,36 @@ const refs = {
   form: document.querySelector('#search-form'),
   input: document.querySelector('.input'),
   gallery: document.querySelector('.gallery'),
-  btnMore: document.querySelector('[type="button"]'),
 };
 
 const imgCard = img => {
   const markup = img
     .map(({ webformatUR, largeImageURL, tags, likes, views, comments, downloads }) => {
-      return `
-  <a class="photo-card" herf="${largeImageURL}">
-  <img src="${webformatUR}" alt="${tags}" loading="lazy" />
-  <div class="info">
-    <p class="info-item">
-     <b>Likes: ${likes}</b>
-    </p>
-    <p class="info-item">
-      <b>Views: ${views}</b>
-    </p>
-    <p class="info-item">
-      <b>Comments: ${comments}</b>
-    </p>
-    <p class="info-item">
-      <b>Downloads: ${downloads} </b>
-    </p>
-  </div>
-</a>
-`;
+      return `<div class="gallery">
+  <a href="largeImageURL"
+    ><img src="webformatURL" alt="" title="" />
+    <div
+      class="photo-card"
+      style="border: 1px solid #009688; border-radius: 4px; margin-bottom: 5px"
+    >
+      <img src="${webformatURL}" alt="${tags}" loading="lazy" width="260px" height="150px" />
+      <div class="info">
+        <p class="info-item">
+          <b> Likes: ${likes}</b>
+        </p>
+        <p class="info-item">
+          <b> Views: ${views}</b>
+        </p>
+        <p class="info-item">
+          <b> Comments: ${comments}</b>
+        </p>
+        <p class="info-item">
+          <b> Downloads: ${downloads}</b>
+        </p>
+      </div>
+    </div></a
+  >
+</div>`;
     })
     .join('');
   return markup;
@@ -61,7 +66,7 @@ const getData = (imagesName, page) => {
 
 const galleryImg = e => {
   e.preventDefault();
-  let imagesName = refs.input.value;
+  let imagesName = input.value;
 
   if (!imagesName) {
     refs.gallery.innerHTML = ' ';
@@ -83,4 +88,15 @@ const errorSearch = error => {
   );
 };
 
+const onLoadMore = () => {
+  page += 1;
+  getData(refs.input.value);
+  if (page > 40) {
+    Notiflix.Notify.info('We are sorry, but you have reached the end of search results.');
+    refs.btnMore.classList.add('is-hidden');
+  }
+};
+
 refs.form.addEventListener('submit', galleryImg);
+
+console.log(imgCard);
