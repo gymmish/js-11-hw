@@ -16,8 +16,8 @@ const imgCard = img => {
   const markup = img
     .map(({ webformatUR, largeImageURL, tags, likes, views, comments, downloads }) => {
       return `<div class="gallery">
-  <a href="largeImageURL"
-    ><img src="webformatURL" alt="" title="" />
+  <a href="${largeImageURL}"
+    ><img src="${webformatURL}" alt="" title="" />
     <div
       class="photo-card"
       style="border: 1px solid #009688; border-radius: 4px; margin-bottom: 5px"
@@ -98,5 +98,3 @@ const onLoadMore = () => {
 };
 
 refs.form.addEventListener('submit', galleryImg);
-
-console.log(imgCard);
