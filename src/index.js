@@ -1,5 +1,5 @@
 import './sass/main.scss';
-import { fetchImg } from './fechImages.js';
+import { fetchImg } from './fechImages';
 
 import Notiflix from 'notiflix';
 
@@ -13,9 +13,11 @@ const refs = {
 };
 
 const imgCard = img => {
+  console.log(img);
   const markup = img
     .map(({ webformatUR, largeImageURL, tags, likes, views, comments, downloads }) => {
-      return `<div class="gallery">
+      return `
+      <div class="gallery">
   <a href="${largeImageURL}"
     ><img src="${webformatURL}" alt="" title="" />
     <div
@@ -47,34 +49,18 @@ const imgCard = img => {
 
 let page = 1;
 
-const getData = (imagesName, page) => {
-  fetchImg(imagesName, page)
-    .then(data => {
-      const { hits, totalHits } = data;
-      if (!totalHits) {
-        throw new Error('');
-      }
-      const markup = imgCard(hits);
-      refs.gallery.insertAdjacentHTML('beforeend', markup);
-      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
-      refs.btnMore.classList.remove('is-hidden');
-
-      return;
-    })
-    .catch(error => errorSearch(error));
-};
-
-const galleryImg = e => {
+function base(e) {
   e.preventDefault();
-  let imagesName = input.value;
+  const imagesName = e.target.value.trim();
 
   if (!imagesName) {
-    refs.gallery.innerHTML = ' ';
+    refs.gallery.innerHTML = '';
     return;
   }
+
   page = 1;
   getData(imagesName, page);
-};
+}
 
 // const lightbox = new SimpleLightbox('.gallery a', {
 //   captionsData: 'alt',
@@ -96,5 +82,3 @@ const onLoadMore = () => {
     refs.btnMore.classList.add('is-hidden');
   }
 };
-
-refs.form.addEventListener('submit', galleryImg);
