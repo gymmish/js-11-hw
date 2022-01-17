@@ -76,11 +76,11 @@ const galleryImg = e => {
   getData(imagesName, page);
 };
 
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-  captionType: 'alt',
-});
+// const lightbox = new SimpleLightbox('.gallery a', {
+//   captionsData: 'alt',
+//   captionDelay: 250,
+//   captionType: 'alt',
+// });
 
 const errorSearch = error => {
   Notiflix.Notify.failure(

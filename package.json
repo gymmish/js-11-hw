@@ -28,6 +28,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "notiflix": "^3.2.2",
-    "simplelightbox": "^2.10.1"
+    "simplelightbox": "^2.10.1",
+    "template": "^0.17.5"
   }
 }
