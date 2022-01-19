@@ -1,40 +1,58 @@
 import './sass/main.scss';
-import SearchImagesAPI from './api';
+import PixabayApiService from './api';
 import Notiflix from 'notiflix';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
+
+import PixabayApiService from './api';
+
+import btnMore from './js/btnMore';
+import Markup from './js/imgCard';
 
 const refs = {
-  form: document.querySelector('#search-form'),
+  inputForm: document.querySelector('.search-form'),
   gallery: document.querySelector('.gallery'),
-  SearchImagesAPI: new SearchImagesAPI(),
 };
 
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-  captionType: 'alt',
-});
+const imgApi = new PixabayApiService();
+const btnMore = new LoadMoreBtn({ selector: '.load-more' });
+const imgCard = new Markup({ selector: refs.gallery });
 
-refs.form.addEventListener('submit', e => {
+refs.inputForm.addEventListener('submit', surchForn);
+btnMore.button.addEventListener('click', onMoreBtn);
+
+// const lightbox = new SimpleLightbox('.gallery a', {
+//   captionsData: 'alt',
+//   captionDelay: 250,
+//   captionType: 'alt',
+// });
+
+async function surchForn(e) {
   e.preventDefault();
 
-  refs.SearchImagesAPI.query = e.target.elements.searchQuery.value.trim();
-  refs.SearchImagesAPI.resetPage();
-  refs.gallery.innerHTML = '';
+  imgCard.reset();
+  imgApi.searchQuery = e.currentTarget.elements.searchQuery.value.trim();
 
-  if (refs.SearchImagesAPI.query) {
-    refs.SearchImagesAPI.fetchImg().then(data => {
-      if (data.hits.length < 40) {
-        Notiflix.Notify.failure('We are sorry, but you have reached the end of search results.');
-        refs.btnLoadMore.classList.add('is-hidden');
-        imgCard(data);
-        return;
-      }
-      imgCard(data);
-    });
+  if (imgApi.searchQuery === '') {
+    btnMore.hideBtn();
+    Notiflix.Notify.failure('enter your request!');
+    return;
   }
-});
+
+  imgApi.resetPage();
+  clearContainet();
+  fetchQuery();
+}
+
+function fetchQuery() {
+  imgApi.fetchPictures().then(data => {
+    if (data.totalHits === 0) {
+      return Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again',
+      );
+    }
+    Notiflix.Notify.success(`Hooray! We found ${data.total} images`);
+    renderGallaryMarkup(data);
+  });
+}
 
 function imgCard(data) {
   const markup = data.hits
