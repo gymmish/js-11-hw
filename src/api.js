@@ -43,7 +43,7 @@ export default class PixabayApiService {
           this.incrementPage();
           return response.data;
         });
-      return getImages;
+      return getImg;
     } catch (error) {
       Notiflix.Notify.failure(`${error}`);
     }

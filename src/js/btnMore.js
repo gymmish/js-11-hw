@@ -1,7 +1,7 @@
 export default class btnMore {
   constructor({ selector }) {
     this.button = document.querySelector(selector);
-    this.label = this.button.textContent;
+    // this.label = this.button.textContent;
   }
 
   showBtn() {
