@@ -44,7 +44,7 @@ function onForm(e) {
     let { height: cardHeight } = document.querySelector('.gallery').getBoundingClientRect();
 
     window.scrollBy({
-      top: cardHeight * 2,
+      top: 0,
       behavior: 'smooth',
     });
   });
@@ -56,7 +56,7 @@ function onLoadMore() {
 
     let { height: cardHeight } = document.querySelector('.gallery').getBoundingClientRect();
     window.scrollBy({
-      top: cardHeight * 2,
+      top: 0,
       behavior: 'smooth',
     });
     windHits += hits.length;
